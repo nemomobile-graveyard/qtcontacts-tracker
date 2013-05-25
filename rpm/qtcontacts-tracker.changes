@@ -1,0 +1,168 @@
+* Wed Mar 06 2013 Martin Kampas <martin.kampas@tieto.com> - 4.19.2
+- Fixed NEMO#512: 4 qtcontacts-tracker unit tests fail in Nemo
+
+* Thu Oct 18 2012 Reto Zingg <reto.zingg@jollamobile.com> - 4.19.2
+- Added 0002-make-failing-tests-in-Nemo-insignificant.patch
+
+* Mon Oct 15 2012 Mohammed Hassan <mohammed.hassan@jollamobile.com> - 4.19.2
+- Added qtcontacts-tracker-4.19.2-compile-against-tracker-0.14.patch (Written by Jens Georg)
+- Added qtcontacts-tracker-4.19.2-no-su-for-tests.patch
+
+* Wed Sep 19 2012 John Brooks <john.brooks@dereferenced.net> - 4.19.2
+- Added 0001-Fix-QObject-thread-ownership-issues.patch
+
+* Fri Aug 17 2012 Marko Saukko <marko.saukko@jollamobile.com> - 4.19.2
+- Fixes NEMO#269: qtcontacts-tracker should also install libqtsparql-tracker-direct
+
+* Tue Jul 31 2012 Tom Swindell <t.swindell@rubyx.co.uk> - 4.19.2
+- Updated sources from git, for libcommhistory and commhistory-daemon packages. 
+
+* Tue Jan 03 2012 Marko Saukko <marko.saukko@cybercom.com> - 4.16.1
+- Added .yaml for spectacle
+
+* Tue Sep 20 2011 Robin Burchell <viroteck@viroteck.net> - 4.16.1
+- Bump version to 0.16.1, fixes *many* bugs and deadlocks
+
+* Sun Apr 17 2011 Adrien Bustany <adrien@bustany.org> - 4.13.7
+- Fixes: BMC#15947 - [trunk:testing][REG]People, SMS, Dialer, Chat application fail to launch.
+- Fixes: BMC#15948 - [Trunk:Testing][REG]Fail to run ut_qtcontacts_trackerplugin
+- Fixes: BMC#5879 - qtcontacts-tracker: PHOTO property not stored
+
+* Mon Apr 04 2011 Adrien Bustany <adrien@bustany.org> - 4.13.4.1
+- Fixes: BMC#15071 - Tracker should not stay on a development version
+- Fixes: BMC#12890 - [unit-test] "ut_qtcontacts_trackerplugin testVCardsAndSync" failed
+- Fixes: BMC#5710 - empty 'revision' (QContactTimestamp) information when saving a contact into qtcontacts (qtcontacts-tracker)
+- Fixes: BMC#8683 - [unit test] "ut_qtcontacts_trackerplugin testFetchAll" failed
+
+* Wed Jan 26 2011 Siraj Razick <siraj.razick@collabora.co.uk> - 4.11.8.1
+- Fixes: BMC#12924 - qtcontacts-tracker needs to be updated to 0.4.11.8-1
+- Fixes: obs build issue against mobility 1.2
+- New: Add unit test for fetching of contacts using a filter with a wildcard on a detail field
+- New: Add unit test for fetching of contacts using an exists filter on a detail
+- Fixes: libqtcontacts-tracker freezes and stops the request
+- Fixes: Usage of disconnect() was accidently inverted in fetch request
+- Changes: Use concurrency level of #CPU + 1
+- Changes: Give QContactTrackerEngine::finishDetailDefinitions() better chance of reporting reason of invokation.
+- Changes: Remove unused dependency on QtNetwork
+- Fixes: libqtcontacts-tracker-tests fail during execution.
+- Fixes: libtqcontacts_tracker uses too much memory for class cache
+- Fixes: Unable to merge 2 tracker contacts (local or IM).
+- Changes: List --disable-schemalist in help output
+- Changes: List configuration of ENABLE_SCHEMA_LIST, ENABLE_BUILDDIRS_RPATH and ENABLE_RTTI after checks
+- Changes: Really preserve order when fetching custom value lists.
+- Fixes: Regression - Few contact fields (family, assistant) not restored
+- Fixes: libqtcontacts-tracker should use QElapsedTimer instead of QTime
+- Fixes: BMC#12003 - schemalist is not building in qtcontact tracker plugin (meego)
+- Fixes: Remove unneeded QUrl(...) from QUrl(QUrl::fromEncoded(...))
+- Fixes: Don't let ontology headers include themself.
+- New: Enable tracker direct access by default
+- New: Enable groups by default
+- New: Add test for Landline subtype in testSavePhoneNumber
+- New: Add unit test for saving and fetching of non-latin1 names
+- New: Add unit test for fetching of contacts using FieldAccountPath or FieldAccountUri of QContactOnlineAccount
+- New: Add ut_qtcontacts_trackerplugin_settings, a test suite for QctSettings
+- New: Test preservation of custom value lists.
+- Changes: Listen to changes of nco:PersonContact and nco:ContactGroup only
+- Changes: Enable pretty printing for contact fetch and save request
+- Changes: Use more robust (and efficient) approach for finding customDetailColumn
+- Changes: Search ontologies.overrides in SRCDIR instead of build dir
+- Changes: Scalar QB: Some code cleanups
+- Changes: Use QLatin1String for default arguments
+
+* Mon Jan 09 2011 Siraj Razick <siraj.razick@collabora.co.uk> - 4.11.5.2
+- Fixed: BMC#12240 - update qtcontacts-tracker to 0.4.11.5.2
+- Fixes: qtcontacts-tracker deletes postal addresses inserted by camera
+- Changes: Display label and global presence not being calculated during fetch unless required by definition hint
+- Fixes: Possible Lockup in cellular guid algorithm if MSISDN is missing
+- Fixes: Synchronize sonumber with version number
+- Fixes: Synchronize sonumber with version number
+- Changes: Also read contextual details from contact itself
+- Switch to scalar query builder for fetch request
+- Fixes: "too many SQL variables" error when importing 500+ telepathy contacts
+- Changes: Save Other context detail within separate affiliation instead of the contact
+- New: QctUnmergeIMContactsRequest for unmerging merged instant messaging contacts.
+- New: unit test for - "too many SQL variables" error when importing 500+ telepathy contacts
+- New: adds method to deal with filters on custom details, bindCustomDetailFilter()
+- Changes: Don't fetch display label details unless requested
+- Changes: Added test for filterring on custom details
+- Changes: Properly handle fetch requests where the fetch hint doesn't contain unique
+- Changes: Update Cubi to 611d14db0cbc19d9caf1f1ee3bae4effffdd8e0e
+- Fixes: the files slots.{h,cpp} are now in ut_qtcontacts_trackerplugin_common, so remove from .pro files in old dirs
+- Changes: Update reference queries for 946b8b17eaa96ea0df4bb29e456de41a841119f3
+- Changes: Update EXPECTFAIL file
+- Fixes: Properly fetch nao:Properties with custom values
+- Fixes: Control contacts was never saved in testFilterContactsMatchPhoneNumberWithShortNumber(), which made test hide a bug
+- Fixes: Call ui displays incorrect contact name
+- Fixes: QContactManager signal test
+- Changes: Liberate last pieces of the plugin from QtTracker \O/
+- Update Cubi to ef060bd7f8046fb03e9f3572a880ca000fca54ca
+- Changes: Port QContactRemoveRequest to QSparql
+- Changes: Factor OPTIONALs better
+- Changes: Add missing setOptional on Organization::Name
+- Changes: Update QB UT data files to match Cubi queries
+- Changes: QB UT: Rename all variables and anonymous nodes to ease comparison
+- Changes: QB UT: Add more cleaning regexps to queries
+- Changes: Avoid "Too many SQL variables" warning in remove request
+- Changes: Sanitize cubidefines a bit.
+- Changes: Remove long time obsolete rdf-mapping tool
+- Changes: Cleanup Cubi namespace usage.
+- Changes: Improve command line parsing of configure script: "--prefix=/usr" works now.
+- Changes: Remove useless ut_qtcontacts_trackerplugin_sparql.
+- Changes: Add Other context to ut_qtcontacts_trackerplugin::testUrl
+- New: Introduce ontology compiler tool
+- New: Add generated ontology classes
+- New: QctContactMergeRequest for merging two contacts into one
+- New: Update Cubi to 030dbc075d0e594d7d8a07e4f6d80c66131b7359
+- Fixes: Broken union filter
+- Fixes: GRAPH for contact only applies to insert part of contact
+- Fixes: Improve handling of restricted-valued properties
+- Fixes: Install all data files for ut_qtcontacts_tracker_plugin
+- Fixes: Massive amount of "unexpected contact" warnings
+- Fixes: Massive memory leak in sync qtcontacts-tracker API
+- Fixes: Online account retrieval working properly again (OPTIONAL handling was broken)
+- Fixes: don't drop detail when fetching contacts
+- Changes: Adapt to packaging changes of libqtsparql-tracker(-extensions)
+- Changes: Apply query filters to customDetail query too
+- Changes: Don't emit changed signal for removed contacts
+- Changes: Move cubi in-tree to avoid build-time dependency on git
+- Changes: Port ContactIdFetchRequest to Cubi
+- Changes: Port ContactSaveRequest to Cubi
+- Changes: Port FetchRequest querybuilder to cubi
+- Changes: Properly save restricted values
+- Changes: Update header location for TrackerChangeListener
+- Changes: Warn if value can't be converted in QTrackerContactDetailField::makeValue
+- Changes: respect prefix when installing shared lib
+- Changes: Remove ad-hoc ncal definitions from schema since QtTracker provides them now
+- Fixes: Contacts application crashes when selecting 'Add group' option in Contacts List view menu
+
+* Mon Nov 29 2010 Adrien Bustany <adrien.bustany@nokia.com> - 4.10.91.3
+- Fixed: BMC#8621 - Require Tracker at runtime
+- Fixed: BMC#10664 - Upgrade to upstream version 4.10.91-3
+- Disable build of schemalister since it requires DBus at build time.
+- Add patch to follow new libqtsparql-tracker-extensions header location
+- Add Requires on libqtsparql-tracker
+
+* Tue Sep 21 2010 Reto Zingg <reto.zingg@nokia.com> - 4.9.4
+- upgrade to upstream version 4.9.4 - Fixed: BMC#7191
+- Fixed: BMC#6741 - ut_qtcontacts_trackerplugin met symbol lookup error
+
+* Tue Aug 24 2010 Bernd Wachter <ext-bernd.wachter@nokia.com> - 4.8.8
+- Update to latest version
+- Package unit tests
+- Remove disable_failing_tests.patch
+- Remove fix_compile_issues.patch
+
+* Mon Jul 26 2010 Kaitlin Rupert <kaitlin.rupert@linux.intel.com> - 4.6.6
+- Use qt-mobility-devel temporarily until libqtcontacts package is removed
+- Replace qmake-qt4 with qmake
+- Comment out empty devel package - not needed for now
+
+* Fri Jul 09 2010 Kaitlin Rupert <kaitlin.rupert@linux.intel.com> - 4.6.6
+- Update to release tag harmattan/4.7.5-1
+
+* Fri Jul 09 2010 Kaitlin Rupert <kaitlin.rupert@linux.intel.com> - 4.6.6
+- Fix compile issues against recent gcc changes
+
+* Tue Jun 08 2010 Kaitlin Rupert <kaitlin.rupert@linux.intel.com> - 4.6.6
+- Initial import of package - release tag harmattan/4.6.6-2
+

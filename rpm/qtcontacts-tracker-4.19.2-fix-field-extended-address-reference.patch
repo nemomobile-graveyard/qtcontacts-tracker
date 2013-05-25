@@ -1,0 +1,124 @@
+Until #QTMOBILITY-1749 is fixed, extended-address field is not supported.
+
+QContactAddress::extendedAddress was introduced by git commit 0ef3498 but 
+reverted by cc06a8a, with comment "Lets wait until we get responses from the 
+symbian side before we push this to qt mobility master."
+
+Index: qtcontacts-tracker-4.19.2/src/dao/contactdetailschema.cpp
+===================================================================
+--- qtcontacts-tracker-4.19.2.orig/src/dao/contactdetailschema.cpp
++++ qtcontacts-tracker-4.19.2/src/dao/contactdetailschema.cpp
+@@ -132,10 +132,10 @@ public:
+                                << QctPropertyInfo<nco::hasPostalAddress>().setHasDetailUri()
+                                << QctPropertyInfo<nco::country>()));
+ 
+-        addField(QctContactDetailField(QContactAddress::FieldExtendedAddress).
++        /*addField(QctContactDetailField(QContactAddress::FieldExtendedAddress).
+                  setPropertyChain(QctPropertyInfoList()
+                                << QctPropertyInfo<nco::hasPostalAddress>()
+-                               << QctPropertyInfo<nco::extendedAddress>()));
++                               << QctPropertyInfo<nco::extendedAddress>()));*/
+ 
+         addField(QctContactDetailField(QContactAddress::FieldLocality).
+                  setPropertyChain(QctPropertyInfoList()
+Index: qtcontacts-tracker-4.19.2/tests/ut_qtcontacts_trackerplugin/ut_qtcontacts_trackerplugin.cpp
+===================================================================
+--- qtcontacts-tracker-4.19.2.orig/tests/ut_qtcontacts_trackerplugin/ut_qtcontacts_trackerplugin.cpp
++++ qtcontacts-tracker-4.19.2/tests/ut_qtcontacts_trackerplugin/ut_qtcontacts_trackerplugin.cpp
+@@ -1293,7 +1293,7 @@ ut_qtcontacts_trackerplugin::testSaveAdd
+     values.insert(QLatin1String(QContactAddress::FieldCountry), "Barbados");
+     values.insert(QLatin1String(QContactAddress::FieldPostcode), "55555");
+     values.insert(QLatin1String(QContactAddress::FieldStreet), "Martindales Rd");
+-    values.insert(QLatin1String(QContactAddress::FieldExtendedAddress), "In the Front Garden");
++    //values.insert(QLatin1String(QContactAddress::FieldExtendedAddress), "In the Front Garden");
+     values.insert(QLatin1String(QContactAddress::FieldRegion), "Bridgetown");
+     values.insert(QLatin1String(QContactAddress::FieldLocality), "Bridgetown town");
+ 
+@@ -1357,6 +1357,8 @@ ut_qtcontacts_trackerplugin::testSaveAdd
+ void
+ ut_qtcontacts_trackerplugin::testExtendedAddress()
+ {
++    QSKIP("This test cannot be run until #QTMOBILITY-1749 is fixed", SkipAll);
++
+     // Check parsing from vcard
+     QList<QContact> contacts = parseVCards(referenceFileName("NB248183.vcf"));
+     QCOMPARE(contacts.count(), 1);
+@@ -1364,8 +1366,8 @@ ut_qtcontacts_trackerplugin::testExtende
+     QContact contact = contacts.first();
+     QCOMPARE(contact.details<QContactAddress>().count(), 1);
+ 
+-    const QString extendedAddress = contact.detail<QContactAddress>().extendedAddress();
+-    QCOMPARE(extendedAddress, QString::fromLatin1("Lawspet"));
++    /*const QString extendedAddress = contact.detail<QContactAddress>().extendedAddress();
++    QCOMPARE(extendedAddress, QString::fromLatin1("Lawspet"));*/
+ 
+     // Check saving and fetching
+     QContactManager::Error error = QContactManager::UnspecifiedError;
+@@ -1381,7 +1383,7 @@ ut_qtcontacts_trackerplugin::testExtende
+ 
+     QCOMPARE(fetchedContact.localId(), contact.localId());
+     QCOMPARE(fetchedContact.details<QContactAddress>().count(), 1);
+-    QCOMPARE(fetchedContact.detail<QContactAddress>().extendedAddress(), extendedAddress);
++    //QCOMPARE(fetchedContact.detail<QContactAddress>().extendedAddress(), extendedAddress);
+ }
+ 
+ void
+@@ -6998,6 +7000,10 @@ ut_qtcontacts_trackerplugin::testVCardsA
+     QFETCH(QString, vcfFileName);
+     QFETCH(QString, xmlFileName);
+ 
++    if (QFileInfo(vcfFileName).fileName() == "NB248183.vcf") {
++        QSKIP("This test cannot be run until #QTMOBILITY-1749 is fixed", SkipSingle);
++    }
++
+     QList<QContact> vcardContacts = parseVCards(vcfFileName);
+     QVERIFY(not vcardContacts.isEmpty());
+ 
+Index: qtcontacts-tracker-4.19.2/tests/ut_qtcontacts_trackerplugin_querybuilder/data/100-Contact.rq
+===================================================================
+--- qtcontacts-tracker-4.19.2.orig/tests/ut_qtcontacts_trackerplugin_querybuilder/data/100-Contact.rq
++++ qtcontacts-tracker-4.19.2/tests/ut_qtcontacts_trackerplugin_querybuilder/data/100-Contact.rq
+@@ -5,7 +5,6 @@ SELECT
+  (SELECT
+     GROUP_CONCAT(fn:concat(?_postalAddress, "\u001f",
+                            tracker:coalesce(nco:country(?_postalAddress, "\u002c", "\u001c"), ""), "\u001f",
+-                           tracker:coalesce(nco:extendedAddress(?_postalAddress, "\u002c", "\u001c"), ""), "\u001f",
+                            tracker:coalesce(nco:locality(?_postalAddress, "\u002c", "\u001c"), ""), "\u001f",
+                            tracker:coalesce(nco:pobox(?_postalAddress, "\u002c", "\u001c"), ""), "\u001f",
+                            tracker:coalesce(nco:postalcode(?_postalAddress, "\u002c", "\u001c"), ""), "\u001f",
+Index: qtcontacts-tracker-4.19.2/tests/ut_qtcontacts_trackerplugin_querybuilder/data/100-Group.rq
+===================================================================
+--- qtcontacts-tracker-4.19.2.orig/tests/ut_qtcontacts_trackerplugin_querybuilder/data/100-Group.rq
++++ qtcontacts-tracker-4.19.2/tests/ut_qtcontacts_trackerplugin_querybuilder/data/100-Group.rq
+@@ -5,7 +5,6 @@ SELECT
+  (SELECT
+     GROUP_CONCAT(fn:concat(?_postalAddress, "\u001f",
+                            tracker:coalesce(nco:country(?_postalAddress, "\u002c", "\u001c"), ""), "\u001f",
+-                           tracker:coalesce(nco:extendedAddress(?_postalAddress, "\u002c", "\u001c"), ""), "\u001f",
+                            tracker:coalesce(nco:locality(?_postalAddress, "\u002c", "\u001c"), ""), "\u001f",
+                            tracker:coalesce(nco:pobox(?_postalAddress, "\u002c", "\u001c"), ""), "\u001f",
+                            tracker:coalesce(nco:postalcode(?_postalAddress, "\u002c", "\u001c"), ""), "\u001f",
+Index: qtcontacts-tracker-4.19.2/tests/ut_qtcontacts_trackerplugin_querybuilder/data/101-Contact-Address.rq
+===================================================================
+--- qtcontacts-tracker-4.19.2.orig/tests/ut_qtcontacts_trackerplugin_querybuilder/data/101-Contact-Address.rq
++++ qtcontacts-tracker-4.19.2/tests/ut_qtcontacts_trackerplugin_querybuilder/data/101-Contact-Address.rq
+@@ -5,7 +5,6 @@ SELECT
+  (SELECT
+    GROUP_CONCAT(fn:concat(?_address, "\u001f",
+                           tracker:coalesce(nco:country(?_address, "\u002c", "\u001c"), ""), "\u001f",
+-                          tracker:coalesce(nco:extendedAddress(?_address, "\u002c", "\u001c"), ""), "\u001f",
+                           tracker:coalesce(nco:locality(?_address, "\u002c", "\u001c"), ""), "\u001f",
+                           tracker:coalesce(nco:pobox(?_address, "\u002c", "\u001c"), ""), "\u001f",
+                           tracker:coalesce(nco:postalcode(?_address, "\u002c", "\u001c"), ""), "\u001f",
+Index: qtcontacts-tracker-4.19.2/tests/ut_qtcontacts_trackerplugin_querybuilder/data/101-Group-Address.rq
+===================================================================
+--- qtcontacts-tracker-4.19.2.orig/tests/ut_qtcontacts_trackerplugin_querybuilder/data/101-Group-Address.rq
++++ qtcontacts-tracker-4.19.2/tests/ut_qtcontacts_trackerplugin_querybuilder/data/101-Group-Address.rq
+@@ -5,7 +5,6 @@ SELECT
+  (SELECT
+    GROUP_CONCAT(fn:concat(?_address, "\u001f",
+                           tracker:coalesce(nco:country(?_address, "\u002c", "\u001c"), ""), "\u001f",
+-                          tracker:coalesce(nco:extendedAddress(?_address, "\u002c", "\u001c"), ""), "\u001f",
+                           tracker:coalesce(nco:locality(?_address, "\u002c", "\u001c"), ""), "\u001f",
+                           tracker:coalesce(nco:pobox(?_address, "\u002c", "\u001c"), ""), "\u001f",
+                           tracker:coalesce(nco:postalcode(?_address, "\u002c", "\u001c"), ""), "\u001f",

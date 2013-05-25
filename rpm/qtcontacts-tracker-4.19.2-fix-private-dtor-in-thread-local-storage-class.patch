@@ -1,0 +1,16 @@
+diff -uNr qtcontacts-tracker-4.19.2~498056e/src/lib/threadlocaldata.h qtcontacts-tracker.p/src/lib/threadlocaldata.h
+--- qtcontacts-tracker-4.19.2~498056e/src/lib/threadlocaldata.h	2012-07-31 07:34:35.881090691 +0000
++++ qtcontacts-tracker.p/src/lib/threadlocaldata.h	2012-07-31 07:40:17.273081527 +0000
+@@ -45,9 +45,11 @@
+ 
+ private:
+     QctThreadLocalData();
++
++public:
+     ~QctThreadLocalData();
+ 
+-public: // singleton style accessor
++    // singleton style accessor
+     static QctThreadLocalData * instance();
+ 
+ public: // attributes

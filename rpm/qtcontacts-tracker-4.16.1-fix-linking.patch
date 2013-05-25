@@ -1,0 +1,153 @@
+From 224dec8ed770ad53faeecf16d3424e9ca12f083d Mon Sep 17 00:00:00 2001
+From: Marko Saukko <marko.saukko@cybercom.com>
+Date: Tue, 3 Jan 2012 13:07:07 +0200
+Subject: [PATCH] Fix linking of tests with newer toolchains.
+
+Signed-off-by: Marko Saukko <marko.saukko@cybercom.com>
+---
+ .../ut_qtcontacts_trackerplugin_tests.pro          |    2 ++
+ .../ut_qtcontacts_trackerplugin_add_async.pro      |    1 +
+ .../ut_qtcontacts_trackerplugin_common.pro         |    1 +
+ .../ut_qtcontacts_trackerplugin_fetch.pro          |    2 ++
+ .../ut_qtcontacts_trackerplugin_groups.pro         |    2 ++
+ .../ut_qtcontacts_trackerplugin_performance.pro    |    2 ++
+ .../ut_qtcontacts_trackerplugin_resourcecache.pro  |    2 ++
+ .../ut_qtcontacts_trackerplugin_settings.pro       |    2 ++
+ ...ut_qtcontacts_trackerplugin_settings_helper.pro |    2 +-
+ .../ut_qtcontacts_trackerplugin_settings_test.pro  |    2 +-
+ .../ut_qtcontacts_trackerplugin_signals.pro        |    2 ++
+ 11 files changed, 18 insertions(+), 2 deletions(-)
+
+diff --git a/tests/ut_qtcontacts_trackerplugin/ut_qtcontacts_trackerplugin_tests.pro b/tests/ut_qtcontacts_trackerplugin/ut_qtcontacts_trackerplugin_tests.pro
+index 252f101..f63cf41 100644
+--- a/tests/ut_qtcontacts_trackerplugin/ut_qtcontacts_trackerplugin_tests.pro
++++ b/tests/ut_qtcontacts_trackerplugin/ut_qtcontacts_trackerplugin_tests.pro
+@@ -24,6 +24,8 @@ include(../ut_qtcontacts_trackerplugin_common/ut_qtcontacts_trackerplugin_common
+ 
+ TARGET = ut_qtcontacts_trackerplugin
+ 
++QT += xml
++
+ DEFINES -= QT_NO_CAST_FROM_ASCII=1 # FIXME: later - 806 errors are way too much for me right now
+ DEFINES += SRCDIR='\\"$$PWD\\"'
+ 
+diff --git a/tests/ut_qtcontacts_trackerplugin_add_async/ut_qtcontacts_trackerplugin_add_async.pro b/tests/ut_qtcontacts_trackerplugin_add_async/ut_qtcontacts_trackerplugin_add_async.pro
+index 04405d3..2e97baa 100644
+--- a/tests/ut_qtcontacts_trackerplugin_add_async/ut_qtcontacts_trackerplugin_add_async.pro
++++ b/tests/ut_qtcontacts_trackerplugin_add_async/ut_qtcontacts_trackerplugin_add_async.pro
+@@ -25,3 +25,4 @@ include(../ut_qtcontacts_trackerplugin_common/ut_qtcontacts_trackerplugin_common
+ DEFINES += SRCDIR='\\"$$PWD\\"'
+ HEADERS += ut_qtcontacts_trackerplugin_add_async.h
+ SOURCES += ut_qtcontacts_trackerplugin_add_async.cpp
++QT += xml
+diff --git a/tests/ut_qtcontacts_trackerplugin_common/ut_qtcontacts_trackerplugin_common.pro b/tests/ut_qtcontacts_trackerplugin_common/ut_qtcontacts_trackerplugin_common.pro
+index 97f75db..9701043 100644
+--- a/tests/ut_qtcontacts_trackerplugin_common/ut_qtcontacts_trackerplugin_common.pro
++++ b/tests/ut_qtcontacts_trackerplugin_common/ut_qtcontacts_trackerplugin_common.pro
+@@ -23,6 +23,7 @@
+ TEMPLATE = lib
+ CONFIG += mobility staticlib qtsparql
+ MOBILITY = contacts versit
++Qt += xml
+ 
+ INCLUDEPATH += ../../src
+ DEPENDPATH += ../../src
+diff --git a/tests/ut_qtcontacts_trackerplugin_fetch/ut_qtcontacts_trackerplugin_fetch.pro b/tests/ut_qtcontacts_trackerplugin_fetch/ut_qtcontacts_trackerplugin_fetch.pro
+index 35e7bca..a89acb8 100644
+--- a/tests/ut_qtcontacts_trackerplugin_fetch/ut_qtcontacts_trackerplugin_fetch.pro
++++ b/tests/ut_qtcontacts_trackerplugin_fetch/ut_qtcontacts_trackerplugin_fetch.pro
+@@ -25,3 +25,5 @@ include(../ut_qtcontacts_trackerplugin_common/ut_qtcontacts_trackerplugin_common
+ DEFINES += SRCDIR='\\"$$PWD\\"'
+ HEADERS += ut_qtcontacts_trackerplugin_fetch.h
+ SOURCES += ut_qtcontacts_trackerplugin_fetch.cpp
++
++QT += xml
+diff --git a/tests/ut_qtcontacts_trackerplugin_groups/ut_qtcontacts_trackerplugin_groups.pro b/tests/ut_qtcontacts_trackerplugin_groups/ut_qtcontacts_trackerplugin_groups.pro
+index 64c0b43..551f36f 100644
+--- a/tests/ut_qtcontacts_trackerplugin_groups/ut_qtcontacts_trackerplugin_groups.pro
++++ b/tests/ut_qtcontacts_trackerplugin_groups/ut_qtcontacts_trackerplugin_groups.pro
+@@ -25,3 +25,5 @@ include(../ut_qtcontacts_trackerplugin_common/ut_qtcontacts_trackerplugin_common
+ DEFINES += SRCDIR='\\"$$PWD\\"'
+ HEADERS += ut_qtcontacts_trackerplugin_groups.h
+ SOURCES += ut_qtcontacts_trackerplugin_groups.cpp
++
++QT += xml
+\ No newline at end of file
+diff --git a/tests/ut_qtcontacts_trackerplugin_performance/ut_qtcontacts_trackerplugin_performance.pro b/tests/ut_qtcontacts_trackerplugin_performance/ut_qtcontacts_trackerplugin_performance.pro
+index ca7ac4f..fac029d 100644
+--- a/tests/ut_qtcontacts_trackerplugin_performance/ut_qtcontacts_trackerplugin_performance.pro
++++ b/tests/ut_qtcontacts_trackerplugin_performance/ut_qtcontacts_trackerplugin_performance.pro
+@@ -26,6 +26,8 @@ DEFINES += SRCDIR='\\"$$PWD\\"'
+ SOURCES += ut_qtcontacts_trackerplugin_performance.cpp
+ HEADERS += ut_qtcontacts_trackerplugin_performance.h
+ 
++QT += xml
++
+ testdata.files += \
+     data/contacts.vcf \
+     data/contacts-100.ttl \
+diff --git a/tests/ut_qtcontacts_trackerplugin_resourcecache/ut_qtcontacts_trackerplugin_resourcecache.pro b/tests/ut_qtcontacts_trackerplugin_resourcecache/ut_qtcontacts_trackerplugin_resourcecache.pro
+index fe25b6b..526fdee 100644
+--- a/tests/ut_qtcontacts_trackerplugin_resourcecache/ut_qtcontacts_trackerplugin_resourcecache.pro
++++ b/tests/ut_qtcontacts_trackerplugin_resourcecache/ut_qtcontacts_trackerplugin_resourcecache.pro
+@@ -24,6 +24,8 @@ include(../ut_qtcontacts_trackerplugin_common/ut_qtcontacts_trackerplugin_common
+ 
+ DEFINES += SRCDIR='\\"$$PWD\\"'
+ 
++QT += xml
++
+ HEADERS += \
+     ut_qtcontacts_trackerplugin_resourcecache.h
+ 
+diff --git a/tests/ut_qtcontacts_trackerplugin_settings/ut_qtcontacts_trackerplugin_settings.pro b/tests/ut_qtcontacts_trackerplugin_settings/ut_qtcontacts_trackerplugin_settings.pro
+index 9750d82..d4dc8ed 100644
+--- a/tests/ut_qtcontacts_trackerplugin_settings/ut_qtcontacts_trackerplugin_settings.pro
++++ b/tests/ut_qtcontacts_trackerplugin_settings/ut_qtcontacts_trackerplugin_settings.pro
+@@ -22,6 +22,8 @@
+ 
+ TEMPLATE = subdirs
+ 
++QT += xml
++
+ SUBDIRS = \
+     ut_qtcontacts_trackerplugin_settings_test.pro \
+     ut_qtcontacts_trackerplugin_settings_helper.pro
+diff --git a/tests/ut_qtcontacts_trackerplugin_settings/ut_qtcontacts_trackerplugin_settings_helper.pro b/tests/ut_qtcontacts_trackerplugin_settings/ut_qtcontacts_trackerplugin_settings_helper.pro
+index 0e7782e..dde0f8f 100644
+--- a/tests/ut_qtcontacts_trackerplugin_settings/ut_qtcontacts_trackerplugin_settings_helper.pro
++++ b/tests/ut_qtcontacts_trackerplugin_settings/ut_qtcontacts_trackerplugin_settings_helper.pro
+@@ -24,7 +24,7 @@ include(../../src/common.pri)
+ 
+ TARGET = ut_qtcontacts_trackerplugin_settings_helper
+ TEMPLATE = app
+-QT += core
++QT += core xml
+ 
+ INCLUDEPATH += ../../src
+ DEPENDPATH += ../../src
+diff --git a/tests/ut_qtcontacts_trackerplugin_settings/ut_qtcontacts_trackerplugin_settings_test.pro b/tests/ut_qtcontacts_trackerplugin_settings/ut_qtcontacts_trackerplugin_settings_test.pro
+index 386833b..fedadc0 100644
+--- a/tests/ut_qtcontacts_trackerplugin_settings/ut_qtcontacts_trackerplugin_settings_test.pro
++++ b/tests/ut_qtcontacts_trackerplugin_settings/ut_qtcontacts_trackerplugin_settings_test.pro
+@@ -26,7 +26,7 @@ TARGET = ut_qtcontacts_trackerplugin_settings
+ 
+ CONFIG += mobility
+ MOBILITY += contacts
+-QT += testlib
++QT += testlib xml
+ 
+ DEFINES += SRCDIR='\\"$$PWD\\"'
+ 
+diff --git a/tests/ut_qtcontacts_trackerplugin_signals/ut_qtcontacts_trackerplugin_signals.pro b/tests/ut_qtcontacts_trackerplugin_signals/ut_qtcontacts_trackerplugin_signals.pro
+index af16788..132c269 100644
+--- a/tests/ut_qtcontacts_trackerplugin_signals/ut_qtcontacts_trackerplugin_signals.pro
++++ b/tests/ut_qtcontacts_trackerplugin_signals/ut_qtcontacts_trackerplugin_signals.pro
+@@ -29,3 +29,5 @@ HEADERS += \
+ 
+ SOURCES += \
+     ut_qtcontacts_trackerplugin_signals.cpp
++
++QT += xml
+-- 
+1.7.6.4
+

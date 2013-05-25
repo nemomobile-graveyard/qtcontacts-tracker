@@ -1,0 +1,13 @@
+diff -uNr qtcontacts-tracker-4.19.2~498056e/libqtcontacts-tracker.pro qtcontacts-tracker.p2/libqtcontacts-tracker.pro
+--- qtcontacts-tracker-4.19.2~498056e/libqtcontacts-tracker.pro	2012-07-31 07:34:35.873090690 +0000
++++ qtcontacts-tracker.p2/libqtcontacts-tracker.pro	2012-07-31 07:46:47.977071044 +0000
+@@ -3,7 +3,8 @@
+ 
+ SUBDIRS = src tests benchmarks tools
+ 
+-equals(ENABLE_DOCS,yes) {
++
++contains(CONFIG,ENABLE_DOCS) {
+   SUBDIRS += doc
+ }
+ 

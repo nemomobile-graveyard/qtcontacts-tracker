@@ -1,0 +1,69 @@
+Name: qtcontacts-tracker
+Summary: QtContact tracker storage plugin
+Version: 4.19.2
+Release: 1
+Group: System/Libraries
+License: LGPL v2.1
+URL: http://gitorious.org/qtcontacts-tracker
+Sources:
+    - "qtcontacts-tracker-%{version}.tar.gz"
+Patches:
+    - qtcontacts-tracker-4.16.1-fix-linking.patch
+    - qtcontacts-tracker-4.19.2-fix-private-dtor-in-thread-local-storage-class.patch
+    - qtcontacts-tracker-4.19.2-fix-broken-docs-check-we-don-t-want-them.patch
+    - qtcontacts-tracker-4.19.2-fix-field-extended-address-reference.patch
+    - 0001-Fix-QObject-thread-ownership-issues.patch
+    - qtcontacts-tracker-4.19.2-compile-against-tracker-0.14.patch
+    - qtcontacts-tracker-4.19.2-no-su-for-tests.patch
+Description: QtContact tracker storage plugin.
+
+Requires:
+    - libqtsparql-tracker >= 0.0.18
+    # Fix for NEMO#269
+    - libqtsparql-tracker-direct
+PkgBR:
+    - libcubi-devel >= 0.1.14
+    - tracker-devel >= 0.10.6
+    - libcubi-tracker-ontologies-devel >= 0.1.4
+    - fdupes
+    - python
+PkgConfigBR:
+    - QtContacts >= 1.2
+    - QtSparql >= 0.0.18 
+    - QtSparqlTrackerExtensions >= 0.0.5
+    - QtCore >= 4.6.0
+    - QtDBus
+    - QtGui
+SetupOptions: -q -n %{name}-%{version}/%{name}
+Configure: none
+Builder: make
+SubPackages:
+    - Name: libqtcontacts-tracker-extensions
+      AsWholeName: yes
+      Summary: Specific QContact extensions from qtcontacts-tracker
+      Group: Development/Libraries
+      Description: |
+          The qtcontacts-tracker-extensions provides additionnal functions and
+          constants used by qtcontacts-tracker, but not part of the official QContact API.
+
+    - Name: tests
+      Summary: Tests for QtContact tracker storage plugin
+      Group: Development/Libraries
+      Description: Tests package for QtContact tracker storage plugin.
+
+    - Name: libqtcontacts-tracker-extensions-devel
+      AsWholeName: yes
+      Summary: Development files for libqtcontacts-tracker-extensions
+      Group: Development/Libraries
+      Description: |
+          The qtcontacts-tracker-extensions-devel package includes the header files
+          for qtcontacts-tracker-extensions.
+      Requires:
+          - libqtcontacts-tracker-extensions = %{version}-%{release}
+          - libcubi-devel >= 0.1.7
+
+    - Name: benchmarks
+      Summary: Benchmarks for QtContact tracker storage plugin
+      Group: Development/Libraries
+      Description: Benchmarks package for QtContact tracker storage plugin.
+

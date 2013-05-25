@@ -1,0 +1,23 @@
+diff -Naur qtcontacts-tracker-4.19.2.orig/tests/mktests.sh qtcontacts-tracker-4.19.2/tests/mktests.sh
+--- qtcontacts-tracker-4.19.2.orig/tests/mktests.sh	2012-03-20 12:21:38.000000000 +0200
++++ qtcontacts-tracker-4.19.2/tests/mktests.sh	2012-10-16 16:59:37.000000000 +0300
+@@ -113,7 +113,6 @@
+     then
+         bindir="$topbuilddir/tests/$suite"
+     else
+-        pre_steps="su -l user -c '$pre_steps'"
+         bindir="/usr/bin"
+     fi
+ 
+@@ -139,11 +138,6 @@
+ 
+         step="${environ}${environ:+ }${launcher}${bindir}/${suite} -maxwarnings 0 ${test}"
+ 
+-        if test "$enable_local" != "yes"
+-        then
+-            step="su -l user -c '$step'"
+-        fi
+-
+         category=`sed -ne "s/^$suite::$test:\s*\(\<\w\+\>\).*/\1/p" $topsourcedir/tests/timeouts`
+ 
+         case "$category" in

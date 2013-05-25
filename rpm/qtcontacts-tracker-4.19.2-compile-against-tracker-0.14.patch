@@ -1,0 +1,12 @@
+diff -ruN qtcontacts-tracker-4.19.2.orig/src/engine/engine.pro qtcontacts-tracker-4.19.2/src/engine/engine.pro
+--- qtcontacts-tracker-4.19.2.orig/src/engine/engine.pro	2012-03-20 10:21:38.000000000 +0000
++++ qtcontacts-tracker-4.19.2/src/engine/engine.pro	2012-09-29 12:32:51.398655393 +0000
+@@ -22,7 +22,7 @@
+ 
+ include(../common.pri)
+ 
+-QMAKE_CXXFLAGS *= $$system(pkg-config --cflags-only-I tracker-sparql-0.10)
++QMAKE_CXXFLAGS *= $$system(pkg-config --cflags-only-I tracker-sparql-0.14)
+ 
+ TEMPLATE = lib
+ CONFIG += mobility staticlib plugin create_prl qtsparql

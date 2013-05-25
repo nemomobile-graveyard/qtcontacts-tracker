@@ -1,0 +1,58 @@
+From 8c89b1dcfae7f3842d3a0521b342fb0c07918f58 Mon Sep 17 00:00:00 2001
+From: John Brooks <john.brooks@dereferenced.net>
+Date: Wed, 19 Sep 2012 14:52:59 -0600
+Subject: [PATCH 1/1] Fix QObject thread ownership issues
+
+QThread objects cannot be used as parents for objects in the thread
+they represent. QctTrackerChangeListener is managed by
+QctThreadLocalData anyway, which will delete it when the thread exits.
+
+QctSettingsSingleton is pushed into the main thread, so the
+QFileSystemWatcher it owns must be pushed as well.
+---
+ src/engine/contactmanagerengine.cpp |    2 +-
+ src/lib/settings.cpp                |    7 +++++--
+ 2 files changed, 6 insertions(+), 3 deletions(-)
+
+diff --git a/src/engine/contactmanagerengine.cpp b/src/engine/contactmanagerengine.cpp
+index c1c3362..9dfa1d9 100644
+--- a/src/engine/contactmanagerengine.cpp
++++ b/src/engine/contactmanagerengine.cpp
+@@ -1558,7 +1558,7 @@ QctContactManagerEngine::connectNotify(const char *signal)
+ 
+         if (0 == d->m_changeListener) {
+             // Create new listener when needed.
+-            d->m_changeListener = new QctTrackerChangeListener(contactClassIris.toList(), QThread::currentThread());
++            d->m_changeListener = new QctTrackerChangeListener(contactClassIris.toList());
+             d->m_changeListener->setCoalescingDelay(d->m_parameters.m_coalescingDelay);
+             d->m_changeListener->setChangeFilterMode(changeFilterMode);
+             d->m_changeListener->setDebugFlags(debugFlags);
+diff --git a/src/lib/settings.cpp b/src/lib/settings.cpp
+index 60bd5c6..5b1a40a 100644
+--- a/src/lib/settings.cpp
++++ b/src/lib/settings.cpp
+@@ -115,16 +115,19 @@ QctSettingsSingleton::QctSettingsSingleton()
+ 
+     // watch settings file to send notifications about changes
+     const QStringList paths = QStringList() << settingsFileInfo.absoluteFilePath();
+-    QFileSystemWatcher *settingsStoreWatcher = new QFileSystemWatcher(paths, this);
+-    connect(settingsStoreWatcher, SIGNAL(fileChanged(QString)), SLOT(onStoredSettingsChanged()));
++    QFileSystemWatcher *settingsStoreWatcher = new QFileSystemWatcher(paths);
+ 
+     if (qApp) {
++        settingsStoreWatcher->moveToThread(qApp->thread());
+         // Ensure the QFileSystemWatcher is destroyed before the event loop quits.
+         // Otherwise a dead-lock will occur on application shutdown. QTBUG-15255.
+         // Now the file watcher will get deleted when the singleton gets destroyed,
+         // or right before the application object tears down. Whatever occurs first.
+         connect(qApp, SIGNAL(aboutToQuit()), settingsStoreWatcher, SLOT(deleteLater()));
+     }
++
++    settingsStoreWatcher->setParent(this);
++    connect(settingsStoreWatcher, SIGNAL(fileChanged(QString)), SLOT(onStoredSettingsChanged()));
+ }
+ 
+ void
+-- 
+1.7.9.5
+
