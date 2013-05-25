@@ -1,0 +1,3 @@
+[submodule "qtcontacts-tracker"]
+	path = qtcontacts-tracker
+	url = https://git.gitorious.org/qtcontacts-tracker/qtcontacts-tracker.git
